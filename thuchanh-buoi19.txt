@@ -1,3 +1,4 @@
+sua tu github web
 =====================================================================
 BUOI 19 - GIT CO BAN: TAO REPO CA NHAN VA PUSH LEN GITHUB
 =====================================================================
@@ -289,3 +290,5 @@ TRA NHANH
   git log --graph --oneline   xem lich su dang do thi
 
 =====================================================================
+
+BƯỚC 4 — git commit
