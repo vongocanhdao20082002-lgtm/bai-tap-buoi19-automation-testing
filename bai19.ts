@@ -60,3 +60,5 @@ console.log("Dong nay chi co o nhanh thu-nghiem");
 
 //Vòng đời: clone (1 lần)  →  sửa file  →  add  →  commit  →  push  
 // →  quay lại "sửa file"
+
+//sua tu may cua minh

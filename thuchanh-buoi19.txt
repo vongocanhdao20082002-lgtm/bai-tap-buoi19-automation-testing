@@ -1,114 +1,291 @@
 =====================================================================
-BUỔI 19 — GIT CƠ BẢN: TẠO REPO CÁ NHÂN VÀ PUSH LÊN GITHUB
+BUOI 19 - GIT CO BAN: TAO REPO CA NHAN VA PUSH LEN GITHUB
 =====================================================================
 
-MỤC TIÊU
-  Có sẵn folder code trên máy → đẩy nó lên GitHub thành repo riêng.
+MUC TIEU
+  Co san folder code tren may  ->  day len GitHub thanh repo rieng.
 
----------------------------------------------------------------------
-BỐI CẢNH: GIT CÓ 3 NƠI
----------------------------------------------------------------------
+  Ghi chu: cho nao viet [abc] nghia la thay bang gia tri that cua ban.
 
-    GitHub (remote)      ← bản trên mạng, mọi người thấy
-         :arrow_up_down:
-    staging + commit     ← phòng chờ, lưu ở máy
-         :arrow_up_down:
-    folder của bạn       ← nơi bạn sửa file
 
-  Mọi lệnh git chỉ là di chuyển công việc giữa 3 nơi này.
-
-  Hai hướng đi, đừng lẫn:
-    GitHub → máy :  git clone   (repo đã có sẵn trên mạng)
-    máy → GitHub :  git init    (bài này đang làm hướng này)
 
 
 
 ---------------------------------------------------------------------
-BƯỚC 0 — TẠO REPO TRỐNG TRÊN GITHUB
+BOI CANH: GIT CO 3 NOI
 ---------------------------------------------------------------------
 
-  Vào  https://github.com/new
+    GitHub (remote)      <- ban tren mang, moi nguoi thay
+         |
+    staging + commit     <- phong cho, luu o may
+         |
+    folder cua ban       <- noi ban sua file
 
-    Repository name : đặt tên rõ nghĩa, không dấu, nối bằng gạch ngang
-                      vd: bai-tap-buoi19-automation-testing
-    Visibility      : Public hoặc Private đều được
-    Add README      : Off              ← BẮT BUỘC
-    Add .gitignore  : No .gitignore    ← BẮT BUỘC
-    Add license     : No license       ← BẮT BUỘC
+  Moi lenh git chi la di chuyen cong viec giua 3 noi nay.
 
-  Bấm "Create repository".
+  Hai huong di, dung lan:
+    GitHub -> may :  git clone   (repo da co san tren mang)
+    may -> GitHub :  git init    (bai nay dang lam huong nay)
 
-  VÌ SAO PHẢI ĐỂ TRỐNG HẾT:
-    Bật bất kỳ mục nào → GitHub tự tạo sẵn 1 commit trên mạng.
-    Máy bạn cũng có commit riêng. Hai lịch sử không chung gốc
-    → git từ chối ghép → push bị "rejected".
 
-    Bật README :  GitHub [commit A]   máy bạn [commit B]  → đụng nhau
-    Tắt hết    :  GitHub (trống)      máy bạn [commit B]  → vừa khít
-
-  Tạo xong, GitHub hiện trang "Quick setup" có ô link dạng:
-    https://github.com/<ten-ban>/<ten-repo>.git
-  Bấm nút copy bên phải ô đó, giữ lại để dùng ở BƯỚC 6.
 
 
 
 ---------------------------------------------------------------------
-BƯỚC 1 — MỞ TERMINAL ĐÚNG CHỖ
+BUOC 0 - TAO REPO TRONG TREN GITHUB
 ---------------------------------------------------------------------
 
-  cd <đường dẫn tới folder code của bạn>
+  Vao GitHub  ->  New repository
 
-  Kiểm tra đang đứng đâu:
-    pwd     ← Git Bash / Mac / Linux / PowerShell
-    cd      ← Windows CMD (gõ "cd" trống, không tham số)
+    Repository name : ten ro nghia, khong dau, noi bang gach ngang
+                      vd: bai-tap-buoi19-automation-testing
+    Visibility      : Public hoac Private deu duoc
+    Add README      : Off              <- BAT BUOC
+    Add .gitignore  : No .gitignore    <- BAT BUOC
+    Add license     : No license       <- BAT BUOC
 
-  QUY TẮC VÀNG: luôn đứng ở GỐC repo. Khỏi phải tính đường dẫn.
+  Bam "Create repository".
+
+  VI SAO PHAI DE TRONG HET:
+    Bat bat ky muc nao -> GitHub tu tao san 1 commit tren mang.
+    May ban cung co commit rieng. Hai lich su khong chung goc
+    -> git tu choi ghep -> push bi "rejected".
+
+    Bat README :  GitHub [commit A]   may ban [commit B]  -> dung nhau
+    Tat het    :  GitHub (trong)      may ban [commit B]  -> vua khit
+
+  Tao xong, GitHub hien trang "Quick setup" co o link dang:
+    https://github.com/[ten-ban]/[ten-repo].git
+  Bam nut copy ben phai o do, giu lai de dung o BUOC 6.
 
 
-
----------------------------------------------------------------------
-BƯỚC 2 — git init
----------------------------------------------------------------------
-
-  git init
-
-  Biến folder thường thành repo, bằng cách tạo folder ẩn .git bên trong.
-  Không có .git thì mọi lệnh git khác đều báo "not a git repository".
-
-    clone = tải repo CÓ SẴN về, .git tự đi theo
-    init  = tự tay tạo .git cho folder chưa có gì
-
-
-
----------------------------------------------------------------------
-BƯỚC 3 — git add -A
----------------------------------------------------------------------
-
-  git status      ← xem cái gì đã đổi (nên chạy trước, thành thói quen)
-  git add -A      ← đưa mọi thay đổi vào phòng chờ
-
-  add KHÔNG lưu gì cả. Nó chỉ CHỌN cái nào sẽ vào commit tiếp theo.
-
-  Phân biệt hai lệnh tắt:
-    git add .     → chỉ lấy từ chỗ đang đứng TRỞ XUỐNG
-    git add -A    → lấy TOÀN repo, đứng đâu cũng vậy   ← nên dùng cái này
-
-  Ví dụ, repo có 2 file vừa sửa:
-      thu-muc-git/
-        ngay.ts              (đã sửa)
-        src/utils/helper.ts  (đã sửa)
-
-    Đứng ở gốc     : add .  lấy 2 file  |  add -A lấy 2 file
-    Đứng ở src/utils: add .  lấy 1 file  |  add -A lấy 2 file
-                             ↑ bỏ sót ngay.ts
-
-  BIÊN GIỚI REPO — luật quan trọng nhất:
-    Git chỉ thấy những gì nằm BÊN TRONG folder repo.
-    File ở ổ đĩa khác, hoặc ở thư mục CHA của repo → không add được:
-        fatal: ... is outside repository
-    Muốn dùng thì phải COPY file đó vào trong repo trước.
 
 
 
 ---------------------------------------------------------------------
-BƯỚC 4 — git commit
+BUOC 1 - MO TERMINAL DUNG CHO
+---------------------------------------------------------------------
+
+  cd [duong dan toi folder code cua ban]
+
+  Kiem tra dang dung dau:
+    pwd     <- Git Bash / Mac / Linux / PowerShell
+    cd      <- Windows CMD (go "cd" trong, khong tham so)
+
+  QUY TAC VANG: luon dung o GOC repo. Khoi phai tinh duong dan.
+
+
+
+
+
+---------------------------------------------------------------------
+BUOC 2 - git init
+---------------------------------------------------------------------
+
+  git init
+
+  Bien folder thuong thanh repo, bang cach tao folder an .git ben trong.
+  Khong co .git thi moi lenh git khac deu bao "not a git repository".
+
+    clone = tai repo CO SAN ve, .git tu di theo
+    init  = tu tay tao .git cho folder chua co gi
+
+
+
+
+
+---------------------------------------------------------------------
+BUOC 3 - git add -A
+---------------------------------------------------------------------
+
+  git status      <- xem cai gi da doi (nen chay truoc, thanh thoi quen)
+  git add -A      <- dua moi thay doi vao phong cho
+
+  add KHONG luu gi ca. No chi CHON cai nao se vao commit tiep theo.
+
+  Ba trang thai mot file co the o:
+    untracked  -> git chua biet file nay          (file moi tao)
+    modified   -> git biet roi, da sua, chua add
+    staged     -> da add, dang cho commit
+
+  Hai lenh tat:
+    git add .     -> chi lay tu cho dang dung TRO XUONG
+    git add -A    -> lay TOAN repo, dung dau cung vay  <- nen dung
+
+  BIEN GIOI REPO - luat quan trong nhat:
+    Git chi thay nhung gi nam BEN TRONG folder repo.
+    File o o dia khac, hoac o thu muc CHA cua repo -> khong add duoc:
+        fatal: ... is outside repository
+    Muon dung thi phai COPY file do vao trong repo truoc.[8:58 AM]
+---------------------------------------------------------------------
+BUOC 4 - git commit
+---------------------------------------------------------------------
+
+  git commit -m "commit dau tien"
+
+  Dong goi moi thu trong phong cho thanh mot moc luu.
+  Chi luu O MAY. GitHub van chua biet gi. Offline van commit duoc.
+
+---------------------------------------------------------------------
+BUOC 5 - git branch -M main
+---------------------------------------------------------------------
+
+  git branch -M main
+
+  Doi ten nhanh dang dung thanh "main".    -M = doi ten, ep buoc
+
+  Vi sao can: git init o nhieu may van dat ten mac dinh la "master"
+  (ten doi cu), con GitHub dung "main". Khong doi -> thanh hai nhanh
+  khac nhau nam chung repo, rat roi.
+
+  Chay SAU commit, dung chay truoc - nhanh chi that su ton tai khi
+  da co it nhat mot commit.
+
+  Neu ban dang lam tren nhanh rieng (vd thu-nghiem) va muon giu ten do
+  thi BO QUA buoc nay, nho o BUOC 7 push dung ten nhanh cua minh.
+
+
+
+
+
+---------------------------------------------------------------------
+BUOC 6 - git remote add origin
+---------------------------------------------------------------------
+
+  git remote add origin https://github.com/[ten-ban]/[ten-repo].git
+  git remote -v     <- kiem tra da noi dung chua
+
+  origin chi la BIET DANH cua link GitHub, go cho ngan.
+  Luc clone git tu noi day nay. Luc init thi phai tu noi bang tay.
+
+
+
+
+
+---------------------------------------------------------------------
+BUOC 7 - git push
+---------------------------------------------------------------------
+
+  git push -u origin main
+  git push -u origin [ten-nhanh-dang-dung]    <- neu khong phai main
+
+  push la lenh DUY NHAT cham toi GitHub.
+  Khong push = code chi nam tren may ban, cho khac khong co.
+
+    origin = biet danh repo GitHub
+    main   = ten nhanh dang day
+    -u     = ghi nho cap nay lai, lan sau chi can go: git push
+
+  Moi nhanh MOI thi lan dau van can -u mot lan.
+  Khong chac dang o nhanh nao thi go: git status  (dong dau tien)
+
+
+
+
+
+---------------------------------------------------------------------
+TOAN BO, CHAY LAN LUOT
+---------------------------------------------------------------------
+
+  cd [folder code cua ban]
+  git init
+  git add -A
+  git commit -m "commit dau tien"
+  git branch -M main
+  git remote add origin https://github.com/[ten-ban]/[ten-repo].git
+  git push -u origin main
+
+  Xong: mo lai trang GitHub, F5 -> thay file cua minh hien len la dat.
+
+
+
+
+
+---------------------------------------------------------------------
+VONG LAP HANG NGAY (TU LAN SAU TRO DI)
+---------------------------------------------------------------------
+
+  Buoc 0-2 va 5-6 chi lam MOT LAN cho moi project. Ve sau chi con:
+
+  git status
+  git add -A
+  git commit -m "mo ta viec vua lam"
+  git push
+
+
+
+
+
+---------------------------------------------------------------------
+LAM VIEC VOI NHANH
+---------------------------------------------------------------------
+
+  git branch            <- xem cac nhanh, dau * la nhanh dang dung
+  git switch -c test    <- TAO nhanh moi ten test roi nhay sang
+  git switch test       <- nhay sang nhanh test da co san
+
+  Cu phap doi cu, gap trong tai lieu cu, y het nhau:
+    git checkout test      =  git switch test
+    git checkout -b test   =  git switch -c test
+    ( -b = branch, -c = create - khac chu, cung y )
+
+  Vi sao git tach ra: checkout om qua nhieu viec (vua doi nhanh, vua
+  khoi phuc file) nen hay go nham. Git tach doi:
+    git switch    <- chi lo chuyen nhanh
+    git restore   <- chi lo chuyen khoi phuc file
+  Nguoi moi nen dung switch.
+
+
+
+
+
+---------------------------------------------------------------------
+LOI THUONG GAP
+---------------------------------------------------------------------
+
+  "not a git repository"
+      -> chua git init, hoac dang dung sai folder. Kiem bang pwd.
+
+  "fatal: ... is outside repository"
+      -> file nam ngoai bien gioi repo. Copy no vao trong repo truoc.[8:58 AM]"Everything up-to-date" du vua sua file
+      -> chua commit. push chi day COMMIT, chua commit thi khong co gi.
+
+  "! [rejected] ... (fetch first)"
+      -> GitHub co commit ma may ban chua co.
+         Nguoi khac vua push -> git pull roi push lai
+         Do lo bat README    -> git pull origin main --allow-unrelated-histories
+                                (git tao 1 merge commit noi hai lich su,
+                                 khong mat gi, chi them buoc)
+
+  "warning: LF will be replaced by CRLF"
+      -> KHONG phai loi, chi la canh bao ky tu xuong dong Windows/Linux.
+         Noi dung code khong doi. Bo qua, di tiep.
+
+  Bi hoi username / password luc push
+      -> GitHub khong nhan mat khau nua. Phai dung Personal Access Token
+         hoac SSH key.
+
+  Cua so soan thao la hien ra luc merge, khong thoat duoc
+      -> do la vim. Go  :wq  roi Enter.
+
+
+
+
+
+---------------------------------------------------------------------
+TRA NHANH
+---------------------------------------------------------------------
+
+  git clone [url]          tai repo co san tu GitHub ve (1 lan/project)
+  git init                 bien folder thanh repo
+  git status               xem cai gi da doi
+  git add -A               dua moi thay doi vao phong cho
+  git commit -m "..."      dong goi thanh moc luu (chi o may)
+  git push                 day len GitHub
+  git pull                 lay thay doi cua nguoi khac ve
+  git branch               xem danh sach nhanh
+  git switch -c [ten]      tao nhanh moi roi nhay sang
+  git remote -v            xem dang noi toi GitHub nao
+  git log --graph --oneline   xem lich su dang do thi
+
+=====================================================================
