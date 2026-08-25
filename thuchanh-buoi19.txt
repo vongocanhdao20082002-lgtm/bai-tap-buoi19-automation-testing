@@ -1,0 +1,114 @@
+=====================================================================
+BUỔI 19 — GIT CƠ BẢN: TẠO REPO CÁ NHÂN VÀ PUSH LÊN GITHUB
+=====================================================================
+
+MỤC TIÊU
+  Có sẵn folder code trên máy → đẩy nó lên GitHub thành repo riêng.
+
+---------------------------------------------------------------------
+BỐI CẢNH: GIT CÓ 3 NƠI
+---------------------------------------------------------------------
+
+    GitHub (remote)      ← bản trên mạng, mọi người thấy
+         :arrow_up_down:
+    staging + commit     ← phòng chờ, lưu ở máy
+         :arrow_up_down:
+    folder của bạn       ← nơi bạn sửa file
+
+  Mọi lệnh git chỉ là di chuyển công việc giữa 3 nơi này.
+
+  Hai hướng đi, đừng lẫn:
+    GitHub → máy :  git clone   (repo đã có sẵn trên mạng)
+    máy → GitHub :  git init    (bài này đang làm hướng này)
+
+
+
+---------------------------------------------------------------------
+BƯỚC 0 — TẠO REPO TRỐNG TRÊN GITHUB
+---------------------------------------------------------------------
+
+  Vào  https://github.com/new
+
+    Repository name : đặt tên rõ nghĩa, không dấu, nối bằng gạch ngang
+                      vd: bai-tap-buoi19-automation-testing
+    Visibility      : Public hoặc Private đều được
+    Add README      : Off              ← BẮT BUỘC
+    Add .gitignore  : No .gitignore    ← BẮT BUỘC
+    Add license     : No license       ← BẮT BUỘC
+
+  Bấm "Create repository".
+
+  VÌ SAO PHẢI ĐỂ TRỐNG HẾT:
+    Bật bất kỳ mục nào → GitHub tự tạo sẵn 1 commit trên mạng.
+    Máy bạn cũng có commit riêng. Hai lịch sử không chung gốc
+    → git từ chối ghép → push bị "rejected".
+
+    Bật README :  GitHub [commit A]   máy bạn [commit B]  → đụng nhau
+    Tắt hết    :  GitHub (trống)      máy bạn [commit B]  → vừa khít
+
+  Tạo xong, GitHub hiện trang "Quick setup" có ô link dạng:
+    https://github.com/<ten-ban>/<ten-repo>.git
+  Bấm nút copy bên phải ô đó, giữ lại để dùng ở BƯỚC 6.
+
+
+
+---------------------------------------------------------------------
+BƯỚC 1 — MỞ TERMINAL ĐÚNG CHỖ
+---------------------------------------------------------------------
+
+  cd <đường dẫn tới folder code của bạn>
+
+  Kiểm tra đang đứng đâu:
+    pwd     ← Git Bash / Mac / Linux / PowerShell
+    cd      ← Windows CMD (gõ "cd" trống, không tham số)
+
+  QUY TẮC VÀNG: luôn đứng ở GỐC repo. Khỏi phải tính đường dẫn.
+
+
+
+---------------------------------------------------------------------
+BƯỚC 2 — git init
+---------------------------------------------------------------------
+
+  git init
+
+  Biến folder thường thành repo, bằng cách tạo folder ẩn .git bên trong.
+  Không có .git thì mọi lệnh git khác đều báo "not a git repository".
+
+    clone = tải repo CÓ SẴN về, .git tự đi theo
+    init  = tự tay tạo .git cho folder chưa có gì
+
+
+
+---------------------------------------------------------------------
+BƯỚC 3 — git add -A
+---------------------------------------------------------------------
+
+  git status      ← xem cái gì đã đổi (nên chạy trước, thành thói quen)
+  git add -A      ← đưa mọi thay đổi vào phòng chờ
+
+  add KHÔNG lưu gì cả. Nó chỉ CHỌN cái nào sẽ vào commit tiếp theo.
+
+  Phân biệt hai lệnh tắt:
+    git add .     → chỉ lấy từ chỗ đang đứng TRỞ XUỐNG
+    git add -A    → lấy TOÀN repo, đứng đâu cũng vậy   ← nên dùng cái này
+
+  Ví dụ, repo có 2 file vừa sửa:
+      thu-muc-git/
+        ngay.ts              (đã sửa)
+        src/utils/helper.ts  (đã sửa)
+
+    Đứng ở gốc     : add .  lấy 2 file  |  add -A lấy 2 file
+    Đứng ở src/utils: add .  lấy 1 file  |  add -A lấy 2 file
+                             ↑ bỏ sót ngay.ts
+
+  BIÊN GIỚI REPO — luật quan trọng nhất:
+    Git chỉ thấy những gì nằm BÊN TRONG folder repo.
+    File ở ổ đĩa khác, hoặc ở thư mục CHA của repo → không add được:
+        fatal: ... is outside repository
+    Muốn dùng thì phải COPY file đó vào trong repo trước.
+
+
+
+---------------------------------------------------------------------
+BƯỚC 4 — git commit
